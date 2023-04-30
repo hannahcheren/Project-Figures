@@ -5,7 +5,8 @@ library(lubridate)
 library(shiny)
 library(imputeTS)
 
-airlines_delay = read.csv("https://uwmadison.box.com/shared/static/fqhiqrx2x4lf7n7dkwv1av86fhz76xhx")
+airlines_delay = read.csv("https://uwmadison.box.com/shared/static/fqhiqrx2x4lf7n7dkwv1av86fhz76xhx") %>% 
+    pivot_longer(c("carrier_delay", "weather_delay", "nas_delay", "security_delay", "late_aircraft_delay"), names_to = "delay_type", values_to = "count")
 
 library(ceramic)
 library(raster)
@@ -99,7 +100,7 @@ plot_us_map <- function(x) {
 } 
 
 my_theme <- function() {
-    theme(legend.position = "top right",
+    theme(legend.position = "right",
           panel.grid.minor = element_blank(),
           axis.ticks = element_blank(),
           title = element_text(size = 30, face = "bold", color = "white"), # Set title text color to white
@@ -114,7 +115,6 @@ my_theme <- function() {
           legend.text = element_text(color = "white"), # Set legend text color to white
           legend.title = element_text(color = "white")) # Set legend title text color to white
 }
-
 
 plot_time_series <- function(df) {
     ggplot(df) +
